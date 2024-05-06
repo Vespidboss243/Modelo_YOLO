@@ -1,6 +1,6 @@
 from ultralytics import YOLO
 import cv2
-from util import  read_license_plate
+from util import  read_license_plate, send_license_plate
 
 
 results = {}
@@ -40,3 +40,5 @@ while ret:
             if license_plate_text is not None:
                 print(license_plate_text)
                 ret = False
+                resultado =  send_license_plate(license_plate_text)
+                print(resultado)
