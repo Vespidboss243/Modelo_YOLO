@@ -5,7 +5,7 @@ from util import read_license_plate, send_license_plate
 results = {}
 placa_anterior = None
 
-license_plate_detector = YOLO('ModelitoPlacasBest.pt')
+license_plate_detector = YOLO('ModelitoPlacasBestOptimizado.pt')
 
 # load video
 cap = cv2.VideoCapture(0)

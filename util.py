@@ -1,6 +1,7 @@
 import string
 import easyocr
 import requests
+import json
 
 # Initialize the OCR reader
 reader = easyocr.Reader(['es'], gpu=True)
@@ -65,9 +66,11 @@ def read_license_plate(license_plate_crop):
     return None, None
 
 def send_license_plate(license_plate_number):
-  url = 'https://82fc-35-204-177-37.ngrok-free.app/api'
-  data = 'Hola, este es mi string de ejemplo'
-  response = requests.post(url, data=license_plate_number)
+  url = 'http://localhost:6970/plate'
+  
+  data = {'plate': license_plate_number}
+  headers = {'Content-Type': 'application/json'}  
+  response = requests.post(url, data=json.dumps(data), headers=headers)
   if response.status_code == 200:
     return "La solicitud fue exitosa."
   else:
