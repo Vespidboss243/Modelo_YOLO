@@ -31,7 +31,7 @@ def license_complies_format(text):
        (text[2] in string.ascii_uppercase or text[2] in dict_int_to_char.keys()) and \
        (text[3] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[3] in dict_char_to_int.keys()) and \
        (text[4] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[4] in dict_char_to_int.keys()) and \
-       (text[5] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[5] in dict_char_to_int.keys()):
+       (text[5] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[5] in dict_char_to_int.keys() or text[5] in string.ascii_uppercase or text[5] in dict_int_to_char.keys()):
        
         return True
     else:
@@ -42,7 +42,7 @@ def format_license(text):
     
     license_plate_ = ''
     mapping = {0: dict_int_to_char, 1: dict_int_to_char, 2: dict_int_to_char,
-               3: dict_char_to_int, 4: dict_char_to_int,5: dict_char_to_int,}
+               3: dict_char_to_int, 4: dict_char_to_int,5:{'':''}}
     for j in [0, 1, 2, 3, 4, 5]:
         if text[j] in mapping[j].keys():
             license_plate_ += mapping[j][text[j]]
