@@ -7,12 +7,12 @@ placa_anterior = None
 
 license_plate_detector = YOLO('ModelitoPlacasBestOptimizado.pt')
 
-# load video
+# Cargar Video
 cap = cv2.VideoCapture(0)
 
 
 
-# read frames
+# Procesar cada frame
 frame_nmr = -1
 ret = True
 while ret:
@@ -24,14 +24,16 @@ while ret:
         for license_plate in license_plates.boxes.data.tolist():
             x1, y1, x2, y2, score, class_id = license_plate
 
-            # crop license plate
+            # Recorte de la imagen
             license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
 
-            # process license plate
+            # Transformación de la imagen
             license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
             _, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, 64, 255, cv2.THRESH_BINARY_INV)
-
-            # read license plate number
+            cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)
+            #text = f"Plate Score: {int(score * 100)}%"
+            #cv2.putText(frame, text, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 2)
+            # Lectura de la placa
             license_plate_text, license_plate_text_score = read_license_plate(license_plate_crop_thresh)
 
             if license_plate_text is not None:
@@ -40,11 +42,11 @@ while ret:
                     placa_anterior = license_plate_text
                     resultado =  send_license_plate(license_plate_text)
                     print(resultado)
-                # Dibujar caja delimitadora alrededor de la matrícula
+                # Bounding Box
                 cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (43, 57, 192), 2)
                 text = f"{license_plate_text} Score: {int(license_plate_text_score * 100)}%"
-                cv2.putText(frame, text, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_DUPLEX, 0.9, (43, 57, 192), 2)
-               # Mostrar la transmisión en una ventana
+                cv2.putText(frame, text, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_DUPLEX, 0.9, (43, 57, 192), 1)
+               # Camara en vivo
     cv2.imshow('Camara en vivo', frame)
 
     # Leer el siguiente frame
